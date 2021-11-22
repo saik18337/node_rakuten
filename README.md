@@ -273,7 +273,173 @@ rej => {
 
 console.log("End!!!")
 
+=========
+
+NodeJS
+
+node.js is a platform built on V8 engine for easily building fast, scalable network applications, platform for browserify of client side application
+
+Node.js is event-driven, non-blocking I/O model
+
+2009 --> Ray Daul
+
+================
+
+Node.JS internals
+
+Event Loop psuedocode:
+
+myFile.js
+
+pendingTimers = [];
+
+pendingOSTask = [];
+
+pendingOperations = []; // callbacks like close of stream
+
+function shouldContinue() {
+	return pendingTimers.length || pendingOSTask.length || pendingOSTask.length;
+}
+
+
+while(shouldContinue()) {
+	1) look at pending timers, setTimeout, setInterval
+
+	2) Node looks for pendingOSTask ==> callbacks
+
+	3) Pause exection
+
+	4) handle close events
+}
+
+===================
+
+
+console.log("Hello!!!");
+
+function doTask() {
+	setInterval(function timed() {
+		console.log("timed!!!")
+	}, 100);
+}
+
+$(".btn").click(function clicked() {
+ console.log("You clicked!!!");
+});
+
+doTask();
+
+console.log("Bye!!!");
+
+
+===============
+
+Node modules: fs, http, repl, crypto, path, ...
+
+=====
+
+Plain Vanilla module system
+IIFE
+var ShopModule = (
+	var data;
+
+	function doTask() {
+
+	}
+
+	return {
+		doTask: doTask
+	}
+)();
+
+
+var PersonModule = (
+	var data;
+	function doTask() {
+
+	}
+
+	function doAnotherTask() {
+
+	}
+
+	return {
+		doTask: doTask,
+		doAnotherTask: doAnotherTask
+	}
+)();
+
+ PersonModule.doTask();
+ PersonModule.data; // not visible
+
+ ShoModule.doTask();
+
+
+=========
+
+ES 6 Module System
+
+
+Person.js
+
+export class Person {
+	constructor(name, age) {
+		this.name = name;
+		this.age = age;
+	}
+
+	getName() {
+		return this.name;
+	}
+}
+
+
+other.js
+
+import {Person} from './Person';
+
+let p = new Person()
+
+
+===========
+
+CommonJS module System ==> used by default in Node.js
+
+
+lib.js
+function add() {}
+function sub() {}
+module.exports = {
+	add,sub
+}
+
+other.js
+
+let lib = require('./lib');
+
+console.log(lib.add());
+
+================
 
 
 
+
+NodeJS memory
+
+1) Whenever an object is created it is placed in New Generation [ S1 / S2]
+
+GC ==> Garbage Collectors ==> release memory
+GC is of 2 types [ Minor GC ==> Scavenger] and [ Major GC ==> Full GC ==> MarkSweepCompact]
+
+if an object survives 2 cycls of minor GC will be moved to Old Generation
+
+Full GC checks only Old Generation
+
+Reason why pointers are not allowed in Java, C#, JavaScript
+
+
+node --min_semi_space_size=1024 --max_semi_space_size=2048 a.js
+node --intial_old_space_size=1024 --max_old_space_size=2048  a.js
+
+=================================================
 
